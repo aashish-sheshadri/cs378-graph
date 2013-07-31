@@ -50,7 +50,7 @@ using namespace boost;
 // TestDeque
 // ---------
 
-typedef testing::Types< adjacency_list<setS, vecS, directedS>, Graph<> > Containers;
+typedef testing::Types< adjacency_list<setS, vecS, directedS>, Graph > Containers;
 
 // TYPED_TEST_CASE(DequeTest, MyDeques);
 template <typename C>
@@ -114,11 +114,17 @@ class Tests : public testing::Test {
 
 TYPED_TEST_CASE(Tests, Containers);
 
+
+
+// add_edge
 TYPED_TEST (Tests, add_edge_1) {
     std::pair<typename TestFixture::edge_descriptor, bool> p = add_edge(this->_vdA, this->_vdB, this->_g);
     EXPECT_TRUE(p.first  == this->_edAB);
     EXPECT_TRUE(p.second == false);}
 
+
+
+// adjacent_vertices
  TYPED_TEST (Tests, adjacent_vertices_1) {
         std::pair<typename TestFixture::adjacency_iterator, typename TestFixture::adjacency_iterator> p = adjacent_vertices(this->_vdA, this->_g);
         typename TestFixture::adjacency_iterator b = p.first;
@@ -132,11 +138,17 @@ TYPED_TEST (Tests, add_edge_1) {
             typename TestFixture::vertex_descriptor vd = *b;
             EXPECT_TRUE(vd == this->_vdC);}}
 
+
+
+// edge
 TYPED_TEST (Tests, test_edge_1) {
         std::pair<typename TestFixture::edge_descriptor, bool> p = edge(this->_vdA, this->_vdB, this->_g);
         EXPECT_TRUE(p.first  == this->_edAB);
         EXPECT_TRUE(p.second == true);}
 
+
+
+// edges
 TYPED_TEST (Tests,test_edges_1) {
         std::pair<typename TestFixture::edge_iterator, typename TestFixture::edge_iterator> p = edges(this->_g);
         typename TestFixture::edge_iterator b = p.first;
@@ -150,26 +162,44 @@ TYPED_TEST (Tests,test_edges_1) {
             typename TestFixture::edge_descriptor ed = *b;
             EXPECT_TRUE(ed == this->_edAC);}}
 
+
+
+// num_edges
 TYPED_TEST (Tests,test_num_edges_1) {
         typename TestFixture::edges_size_type es = num_edges(this->_g);
         EXPECT_TRUE(es == 11);}
 
+
+
+// num_vertices
 TYPED_TEST (Tests,test_num_vertices_1) {
         typename TestFixture::vertices_size_type vs = num_vertices(this->_g);
         EXPECT_TRUE(vs == 8);}
 
+
+
+// source
 TYPED_TEST (Tests,test_source_1) {
         typename TestFixture::vertex_descriptor vd = source(this->_edAB, this->_g);
         EXPECT_TRUE(vd == this->_vdA);}
 
+
+
+// target
 TYPED_TEST (Tests,test_target_1) {
         typename TestFixture::vertex_descriptor vd = target(this->_edAB, this->_g);
         EXPECT_TRUE(vd == this->_vdB);}
 
+
+
+// vertex
 TYPED_TEST (Tests,test_vertex_1) {
         typename TestFixture::vertex_descriptor vd = vertex(0, this->_g);
         EXPECT_TRUE(vd == this->_vdA);}
 
+
+
+//vertices
 TYPED_TEST (Tests,test_vertices_1) {
         std::pair<typename TestFixture::vertex_iterator, typename TestFixture::vertex_iterator> p = vertices(this->_g);
         typename TestFixture::vertex_iterator b = p.first;
@@ -183,9 +213,15 @@ TYPED_TEST (Tests,test_vertices_1) {
             typename TestFixture::vertex_descriptor vd = *b;
             EXPECT_TRUE(vd == this->_vdB);}}
 
+
+
+// // has_cycle
 // TEST (Tests,test_has_cycle_1) {
 //         EXPECT_TRUE(has_cycle(this->_g));}
 
+
+
+// // topological_sort
 // TEST (Tests,test_topological_sort_1) {
 //         std::ostringstream out;
 //         topological_sort(this->_g, std::ostream_iterator<vertex_descriptor>(out, " "));

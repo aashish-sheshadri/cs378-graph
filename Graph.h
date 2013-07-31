@@ -35,10 +35,6 @@ class Graph {
         typedef std::vector<edge_descriptor>::const_iterator edge_iterator;      // fix!
         typedef std::set<vertex_descriptor>::const_iterator adjacency_iterator; // fix!
 
-        // typedef typename VC::const_iterator const_vertex_iterator;    // fix!
-        // typedef typename EC::const_iterator const_edge_iterator;      // fix!
-        // typedef typename VC::const_iterator const_adjacency_iterator; // fix!
-
         typedef std::size_t vertices_size_type;
         typedef std::size_t edges_size_type;
 
@@ -48,10 +44,11 @@ class Graph {
         // --------
 
         /**
-         * <your documentation>
+         * <your documentation> DONE
+         add edge (u, v) to graph g
          */
         friend std::pair<edge_descriptor, bool> add_edge (vertex_descriptor u, vertex_descriptor v, Graph& g) {
-            // <your code>
+            // <your code> DONE
             edge_descriptor ed = std::make_pair(u, v);
             // bool            b;
 
@@ -59,6 +56,7 @@ class Graph {
             std::pair<adjacency_iterator,bool> ae = g._g[u].insert(v);
             if(ae.second == true) 
                 g._ec.push_back(ed);
+            assert(valid()
             return std::make_pair(ed, ae.second);}
 
         // ----------
@@ -74,6 +72,7 @@ class Graph {
             vertex_descriptor v = g._g.size();
             g._vc.push_back(v);
             g._g.push_back(std::set<vertex_descriptor>());
+            assert(valid()
             return v;}
 
         // -----------------
@@ -218,6 +217,7 @@ class Graph {
          */
         bool valid () const {
             // <your code>
+
             return true;}
 
     public:
