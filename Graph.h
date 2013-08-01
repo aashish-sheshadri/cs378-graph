@@ -56,7 +56,7 @@ class Graph {
             std::pair<adjacency_iterator,bool> ae = g._g[u].insert(v);
             if(ae.second == true) 
                 g._ec.push_back(ed);
-            assert(valid()
+            // assert(valid());
             return std::make_pair(ed, ae.second);}
 
         // ----------
@@ -72,7 +72,7 @@ class Graph {
             vertex_descriptor v = g._g.size();
             g._vc.push_back(v);
             g._g.push_back(std::set<vertex_descriptor>());
-            assert(valid()
+            // assert(valid());
             return v;}
 
         // -----------------
@@ -234,7 +234,8 @@ class Graph {
                 _ec(ec)
             {
             // <your code>
-            assert(valid());}
+            assert(valid());
+        }
 
         // Default copy, destructor, and copy assignment
         // Graph  (const Graph<T>&);

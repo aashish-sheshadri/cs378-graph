@@ -100,14 +100,14 @@ class Tests : public testing::Test {
         _edAB(add_edge(_vdA, _vdB, _g).first),
         _edAC(add_edge(_vdA, _vdC, _g).first),
         _edAE(add_edge(_vdA, _vdE, _g).first),
-        _edBD ( add_edge(_vdB, _vdD, _g).first),
-        _edBE ( add_edge(_vdB, _vdE, _g).first),
-        _edCD ( add_edge(_vdC, _vdD, _g).first),
-        _edDE ( add_edge(_vdD, _vdE, _g).first),
-        _edDF ( add_edge(_vdD, _vdF, _g).first),
-        _edFD ( add_edge(_vdF, _vdD, _g).first),
-        _edFH ( add_edge(_vdF, _vdH, _g).first),
-        _edGH ( add_edge(_vdG, _vdH, _g).first){}
+        _edBD(add_edge(_vdB, _vdD, _g).first),
+        _edBE(add_edge(_vdB, _vdE, _g).first),
+        _edCD(add_edge(_vdC, _vdD, _g).first),
+        _edDE(add_edge(_vdD, _vdE, _g).first),
+        _edDF(add_edge(_vdD, _vdF, _g).first),
+        _edFD(add_edge(_vdF, _vdD, _g).first),
+        _edFH(add_edge(_vdF, _vdH, _g).first),
+        _edGH(add_edge(_vdG, _vdH, _g).first){}
 };
 
 
