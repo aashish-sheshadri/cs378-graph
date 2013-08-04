@@ -253,7 +253,8 @@ class Graph {
  * 
  */
  template <typename G, typename RI>
- bool dfs_recursive(const G& g, typename G::vertex_descriptor currVert, RI it){
+ bool dfs_recursive(const G& g, typename G::edge_descriptor currEdge, RI it){
+    
     return true;
  }
 
@@ -268,10 +269,9 @@ class Graph {
  */
 template <typename G>
 bool has_cycle (const G& g) {
-    static auto beginVert = g.edges(g).first().source();
+    typename G::edge_descriptor beginEdge = *(g.edges(g).first());
     int verts[const_cast<size_t>(g.num_vertices())] = {0}; 
-    
-    return dfs_recursive(g,beginVert,verts);}
+    return dfs_recursive(g,beginEdge,verts);}
 
 // ----------------
 // topological_sort
