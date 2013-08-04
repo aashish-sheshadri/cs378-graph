@@ -265,7 +265,7 @@ class Graph {
         if(it[*begin] == 1)
             has_cycle = true;
 
-        if(it[*begin] != 2){
+        if(it[*begin] == 0){
             has_cycle = has_cycle || dfs_recursive(g,*begin,it);}
             ++begin;}
     
