@@ -271,7 +271,7 @@ bool has_cycle (const G& g) {
     static auto beginVert = g.edges(g).first().source();
     int verts[const_cast<size_t>(g.num_vertices())] = {0}; 
     
-    return true;}
+    return dfs_recursive(g,beginVert,verts);}
 
 // ----------------
 // topological_sort
