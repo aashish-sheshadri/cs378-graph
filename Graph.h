@@ -243,6 +243,20 @@ class Graph {
         // Graph& operator = (const Graph&);
     };
 
+
+// ----------------
+// dfs_recursive
+// ----------------
+
+/** 
+ * three color dfs
+ * 
+ */
+ template <typename G, typename RI>
+ bool dfs_recursive(const G& g, G::vertex_descriptor currVert, RI it){
+
+ }
+
 // ---------
 // has_cycle
 // ---------
@@ -254,6 +268,9 @@ class Graph {
  */
 template <typename G>
 bool has_cycle (const G& g) {
+    static auto beginVert = g.edges(g).first().source();
+    int verts[const_cast<size_t>(g.num_vertices())] = {0}; 
+    
     return true;}
 
 // ----------------
