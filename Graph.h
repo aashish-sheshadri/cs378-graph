@@ -292,7 +292,7 @@ bool has_cycle (const G& g) {
         typename G::vertex_descriptor beginVert = *(edgesBegin).source();
         if(dfs_recursive(g,beginVert,verts))
             return true;
-        ++edgesBegin;} while(edgesBegin != edgesEnd && (std::accumulate(verts,verts+g.num_vertices(),0,std::plus<int>()) != 2*g.num_vertices()); 
+        ++edgesBegin;} while(edgesBegin != edgesEnd && (std::accumulate(verts,verts+g.num_vertices(),0,std::plus<int>()) != 2*g.num_vertices())); 
     return false;}
 
 // ----------------
