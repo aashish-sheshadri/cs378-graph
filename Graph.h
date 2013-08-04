@@ -253,7 +253,7 @@ class Graph {
  * 
  */
  template <typename G, typename RI>
- bool dfs_recursive(const G& g, G::vertex_descriptor currVert, RI it){
+ bool dfs_recursive(const G& g, typename G::vertex_descriptor currVert, RI it){
     return true;
  }
 
