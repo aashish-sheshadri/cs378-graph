@@ -17,6 +17,8 @@
 #include <vector>  // vector
 #include <list>
 #include <deque>
+#include <functional>
+#include <numeric>
 
 // -----
 // Graph
@@ -282,9 +284,16 @@ class Graph {
  */
 template <typename G>
 bool has_cycle (const G& g) {
-    typename G::vertex_descriptor beginVert = *(g.edges(g).first()).source();
-    int verts[const_cast<size_t>(g.num_vertices())] = {0}; 
-    return dfs_recursive(g,beginVert,verts);}
+    auto edgeItPair = g.edges(g);
+    typename G::edge_iterator edgesBegin = g.edges(g).first();
+    typename G::edge_iterator edgesEnd = g.edges(g).second();
+    int verts[const_cast<size_t>(g.num_vertices())] = {0};
+    do {
+        typename G::vertex_descriptor beginVert = *(edgesBegin).source();
+        if(dfs_recursive(g,beginVert,verts))
+            return true;
+        ++edgesBegin;} while(edgesBegin != edgesEnd && (std::accumulate(verts,verts+g.num_vertices(),0,std::plus<int>()) != 2*g.num_vertices()); 
+    return false;}
 
 // ----------------
 // topological_sort
