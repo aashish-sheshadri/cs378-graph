@@ -254,7 +254,6 @@ class Graph {
  */
  template <typename G, typename RI>
  bool dfs_recursive(const G& g, typename G::vertex_descriptor currVert, RI it, bool has_cycle = false){
-    bool has_cycle = false;
     it[currVert] = 1;
     auto itPair = adjacent_vertices(g, currVert);
     typename G::adjacency_iterator begin = itPair.first();
