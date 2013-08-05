@@ -19,6 +19,7 @@
 #include <deque>
 #include <functional>
 #include <numeric>
+#include "PFD.h"
 
 // -----
 // Graph
@@ -285,8 +286,8 @@ class Graph {
 template <typename G>
 bool has_cycle (const G& g) {
     auto edgeItPair = g.edges(g);
-    typename G::edge_iterator edgesBegin = g.edges(g).first();
-    typename G::edge_iterator edgesEnd = g.edges(g).second();
+    typename G::edge_iterator edgesBegin = edgeItPair.first();
+    typename G::edge_iterator edgesEnd = edgeItPair.second();
     int verts[const_cast<size_t>(g.num_vertices())] = {0};
     do {
         typename G::vertex_descriptor beginVert = *(edgesBegin).source();
@@ -307,11 +308,36 @@ bool has_cycle (const G& g) {
  */
 template <typename G, typename OI>
 void topological_sort (const G& g, OI x) {
-    *x = 2;
-    ++x;
-    *x = 0;
-    ++x;
-    *x = 1;
+    if(has_cycle(g))
+        throw not_a_dag;
+    auto vertsItPair = vertices(g);
+    typename G::vert_iterator vertBegin = vertsItPair.first();
+    typename G::vert_iterator vertEnd = vertsItPair.second();
+    std::stringstream in;
+    G::edges_size_type numRules = 0;
+    G::vertices_size_type numVerts = g.num_vertices();
+    while(vertBegin!=vertEnd){
+        auto itPair = adjacent_vertices(g, *vertBegin);
+        typename G::adjacency_iterator begin = itPair.first();
+        typename G::adjacency_iterator end = itPair.second();
+        typename G::vertices_size_type numAdj = std::distance(begin,end);
+        if(numAdj){
+            ++numRules;
+            in<<*vertBegin<<" "<<numAdj;
+            while(begin!=end){
+                in<<" "<<*begin;
+                ++begin;}
+            in<<std::endl;}
+        ++vertBegin;}
+    
+    std::vector<node> graph = PFD_read(numVerts, numRules, in);
+    std::vector<int> result = PFD_eval(graph);
+    std::copy(result.begin(),result.end(),x);
+    // *x = 2;
+    // ++x;
+    // *x = 0;
+    // ++x;
+    // *x = 1;
     }
 
 #endif // Graph_h
