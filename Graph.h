@@ -221,7 +221,7 @@ class Graph {
         bool valid () const {
             // <your code>
 
-            return true;}
+            return _g.size() == _vc.size();}
 
     public:
         // ------------
@@ -311,30 +311,30 @@ bool has_cycle (const G& g) {
 template <typename G, typename OI>
 void topological_sort (const G& g, OI x) {
     if(has_cycle(g))
-        throw boost::not_a_dag("");
+        throw boost::not_a_dag();
     auto vertsItPair = vertices(g);
-    typename G::vert_iterator vertBegin = vertsItPair.first();
-    typename G::vert_iterator vertEnd = vertsItPair.second();
+    typename G::vertex_iterator vertBegin = vertsItPair.first;
+    typename G::vertex_iterator vertEnd = vertsItPair.second;
     std::stringstream in;
     typename G::edges_size_type numRules = 0;
     typename G::vertices_size_type numVerts = num_vertices(g);
     while(vertBegin!=vertEnd){
-        auto itPair = adjacent_vertices(g, *vertBegin);
-        typename G::adjacency_iterator begin = itPair.first();
-        typename G::adjacency_iterator end = itPair.second();
+        auto itPair = adjacent_vertices(*vertBegin,g);
+        typename G::adjacency_iterator begin = itPair.first;
+        typename G::adjacency_iterator end = itPair.second;
         typename G::vertices_size_type numAdj = std::distance(begin,end);
         if(numAdj){
             ++numRules;
-            in<<*vertBegin<<" "<<numAdj;
+            in<<*vertBegin + 1<<" "<<numAdj;
             while(begin!=end){
-                in<<" "<<*begin;
+                in<<" "<<*begin + 1;
                 ++begin;}
             in<<std::endl;}
         ++vertBegin;}
     
     std::vector<node> graph = PFD_read(numVerts, numRules, in);
     std::vector<int> result = PFD_eval(graph);
-    std::copy(result.begin(),result.end(),x);
+    std::copy(result.rbegin(),result.rend(),x);
     // *x = 2;
     // ++x;
     // *x = 0;
