@@ -51,6 +51,105 @@ using namespace boost;
 // TestDeque
 // ---------
 
+class CycleTests : public testing::Test {
+    typedef Graph graph_type;
+    typedef typename graph_type::vertex_descriptor  vertex_descriptor;
+    typedef typename graph_type::edge_descriptor    edge_descriptor;
+
+    typedef typename graph_type::vertex_iterator    vertex_iterator;
+    typedef typename graph_type::edge_iterator      edge_iterator;
+    typedef typename graph_type::adjacency_iterator adjacency_iterator;
+
+    typedef typename graph_type::vertices_size_type vertices_size_type;
+    typedef typename graph_type::edges_size_type    edges_size_type;
+    public:
+    graph_type _g;
+    vertex_descriptor _vdA;
+    vertex_descriptor _vdB;
+    vertex_descriptor _vdC;
+    vertex_descriptor _vdD;
+    vertex_descriptor _vdE;
+    vertex_descriptor _vdF;
+    vertex_descriptor _vdG;
+    vertex_descriptor _vdH;
+
+    edge_descriptor _edAB;
+    edge_descriptor _edAC;
+    edge_descriptor _edAE;
+    edge_descriptor _edBD;
+    edge_descriptor _edBE;
+    edge_descriptor _edCD;
+    edge_descriptor _edDE;
+    edge_descriptor _edDF;
+    edge_descriptor _edFD;
+    edge_descriptor _edFH;
+    edge_descriptor _edGH;
+
+    // CycleTests():_g(graph_type()){}
+    
+    virtual void setupCyclic(){
+        _vdA = add_vertex(_g);
+        _vdB = add_vertex(_g);
+        _vdC = add_vertex(_g);
+        _vdD = add_vertex(_g);
+        _vdE = add_vertex(_g);
+        _vdF = add_vertex(_g);
+        _vdG = add_vertex(_g);
+        _vdH = add_vertex(_g);
+        _edAB = add_edge(_vdA, _vdB, _g).first;
+        _edAC = add_edge(_vdA, _vdC, _g).first;
+        _edAE = add_edge(_vdA, _vdE, _g).first;
+        _edBD = add_edge(_vdB, _vdD, _g).first;
+        _edBE = add_edge(_vdB, _vdE, _g).first;
+        _edCD = add_edge(_vdC, _vdD, _g).first;
+        _edDE = add_edge(_vdD, _vdE, _g).first;
+        _edDF = add_edge(_vdD, _vdF, _g).first;
+        _edFD = add_edge(_vdF, _vdD, _g).first;
+        _edFH = add_edge(_vdF, _vdH, _g).first;
+        _edGH = add_edge(_vdG, _vdH, _g).first;}
+    
+    virtual void setupACyclic(){
+        _vdA = add_vertex(_g);
+        _vdB = add_vertex(_g);
+        _vdC = add_vertex(_g);
+        _vdD = add_vertex(_g);
+        _vdE = add_vertex(_g);
+        _vdF = add_vertex(_g);
+        _vdG = add_vertex(_g);
+        _vdH = add_vertex(_g);
+
+        _edAB = add_edge(_vdA, _vdB, _g).first;
+        _edAC = add_edge(_vdA, _vdC, _g).first;
+        _edAE = add_edge(_vdA, _vdE, _g).first;
+        _edBD = add_edge(_vdB, _vdD, _g).first;
+        _edBE = add_edge(_vdB, _vdE, _g).first;
+        _edCD = add_edge(_vdC, _vdD, _g).first;
+        _edDE = add_edge(_vdD, _vdE, _g).first;
+        // _edDF = add_edge(_vdD, _vdF, _g).first;
+        _edFD = add_edge(_vdF, _vdD, _g).first;
+        _edFH = add_edge(_vdF, _vdH, _g).first;
+        _edGH = add_edge(_vdG, _vdH, _g).first;
+    }
+};
+
+// has_cycle
+TEST_F (CycleTests,test_has_cycle_1) {
+        setupCyclic();
+        EXPECT_TRUE(has_cycle(_g));}
+
+TEST_F (CycleTests,test_has_cycle_2) {
+        setupACyclic();
+        EXPECT_TRUE(!has_cycle(_g));}
+
+
+
+// topological_sort
+// TEST_F (Tests,test_topological_sort_1) {
+//         std::ostringstream out;
+//         topological_sort(this->_g, std::ostream_iterator<vertex_descriptor>(out, " "));
+//         EXPECT_TRUE(out.str() == "2 0 1 ");}
+
+
 typedef testing::Types< adjacency_list<setS, vecS, directedS>, Graph > Containers;
 
 // TYPED_TEST_CASE(DequeTest, MyDeques);
@@ -114,8 +213,6 @@ class Tests : public testing::Test {
 
 
 TYPED_TEST_CASE(Tests, Containers);
-
-
 
 // add_edge
 TYPED_TEST (Tests, add_edge_1) {
@@ -260,14 +357,14 @@ TYPED_TEST (Tests,test_num_edges_1) {
 
 
 TYPED_TEST (Tests,test_num_edges_2) {
-        std::pair<typename TestFixture::edge_descriptor, bool> p = add_edge(this->_vdA, this->_vdD, this->_g);
+        add_edge(this->_vdA, this->_vdD, this->_g);
         typename TestFixture::edges_size_type es = num_edges(this->_g);
         EXPECT_TRUE(es == 12);
         }
 
 TYPED_TEST (Tests,test_num_edges_3) {
-        std::pair<typename TestFixture::edge_descriptor, bool> p = add_edge(this->_vdA, this->_vdD, this->_g);
-        std::pair<typename TestFixture::edge_descriptor, bool> q = add_edge(this->_vdA, this->_vdD, this->_g); // trying to add an existing edge
+        add_edge(this->_vdA, this->_vdD, this->_g);
+        add_edge(this->_vdA, this->_vdD, this->_g); // trying to add an existing edge
         typename TestFixture::edges_size_type es = num_edges(this->_g);
         EXPECT_TRUE(es == 12);
         }
@@ -280,13 +377,13 @@ TYPED_TEST (Tests,test_num_vertices_1) {
         EXPECT_TRUE(vs == 8);}
 
 TYPED_TEST (Tests,test_num_vertices_2) {
-        typename TestFixture::vertex_descriptor vd = add_vertex(this->_g);
+        add_vertex(this->_g);
         typename TestFixture::vertices_size_type vs = num_vertices(this->_g);
         EXPECT_TRUE(vs == 9);}
 
 TYPED_TEST (Tests,test_num_vertices_3) {
-        typename TestFixture::vertex_descriptor vd1 = add_vertex(this->_g);
-        typename TestFixture::vertex_descriptor vd2 = add_vertex(this->_g);
+        add_vertex(this->_g);
+        add_vertex(this->_g);
         typename TestFixture::vertices_size_type vs = num_vertices(this->_g);
         EXPECT_TRUE(vs == 10);}
 
@@ -297,6 +394,14 @@ TYPED_TEST (Tests,test_source_1) {
         typename TestFixture::vertex_descriptor vd = source(this->_edAB, this->_g);
         EXPECT_TRUE(vd == this->_vdA);}
 
+TYPED_TEST (Tests,test_source_2) {
+        typename TestFixture::vertex_descriptor vd = source(this->_edCD, this->_g);
+        EXPECT_TRUE(vd == this->_vdC);}
+
+TYPED_TEST (Tests,test_source_3) {
+        typename TestFixture::vertex_descriptor vd = source(this->_edCD, this->_g);
+        EXPECT_TRUE(vd != this->_vdD);}
+
 
 
 // target
@@ -304,12 +409,28 @@ TYPED_TEST (Tests,test_target_1) {
         typename TestFixture::vertex_descriptor vd = target(this->_edAB, this->_g);
         EXPECT_TRUE(vd == this->_vdB);}
 
+TYPED_TEST (Tests,test_target_2) {
+        typename TestFixture::vertex_descriptor vd = target(this->_edCD, this->_g);
+        EXPECT_TRUE(vd == this->_vdD);}
+
+TYPED_TEST (Tests,test_target_3) {
+        typename TestFixture::vertex_descriptor vd = target(this->_edCD, this->_g);
+        EXPECT_TRUE(vd != this->_vdC);}
+
 
 
 // vertex
 TYPED_TEST (Tests,test_vertex_1) {
         typename TestFixture::vertex_descriptor vd = vertex(0, this->_g);
         EXPECT_TRUE(vd == this->_vdA);}
+
+TYPED_TEST (Tests,test_vertex_2) {
+        typename TestFixture::vertex_descriptor vd = vertex(1, this->_g);
+        EXPECT_TRUE(vd == this->_vdB);}
+
+TYPED_TEST (Tests,test_vertex_3) {
+        typename TestFixture::vertex_descriptor vd = vertex(7, this->_g);
+        EXPECT_TRUE(vd == this->_vdH);}
 
 
 
@@ -327,16 +448,41 @@ TYPED_TEST (Tests,test_vertices_1) {
             typename TestFixture::vertex_descriptor vd = *b;
             EXPECT_TRUE(vd == this->_vdB);}}
 
+TYPED_TEST (Tests,test_vertices_2) {
+        std::pair<typename TestFixture::vertex_iterator, typename TestFixture::vertex_iterator> p = vertices(this->_g);
+        typename TestFixture::vertex_iterator b = p.first;
+        typename TestFixture::vertex_iterator e = p.second;
+        EXPECT_TRUE(b != e);
+        if (b != e) {
+            typename TestFixture::vertex_descriptor vd = *b;
+            EXPECT_TRUE(vd == this->_vdA);}
+        ++b;
+        if (b != e) {
+            typename TestFixture::vertex_descriptor vd = *b;
+            EXPECT_TRUE(vd == this->_vdB);}
+        ++b;
+        if (b != e) {
+            typename TestFixture::vertex_descriptor vd = *b;
+            EXPECT_TRUE(vd == this->_vdC);}
 
+        }
 
-// // has_cycle
-// TEST (Tests,test_has_cycle_1) {
-//         EXPECT_TRUE(has_cycle(this->_g));}
+TYPED_TEST (Tests,test_vertices_3) {
+        std::pair<typename TestFixture::vertex_iterator, typename TestFixture::vertex_iterator> p = vertices(this->_g);
+        typename TestFixture::vertex_iterator b = p.first;
+        typename TestFixture::vertex_iterator e = p.second;
+        EXPECT_TRUE(b != e);
+        if (b != e) {
+            typename TestFixture::vertex_descriptor vd = *b;
+            EXPECT_TRUE(vd == this->_vdA);}
+        ++b;
+        if (b != e) {
+            typename TestFixture::vertex_descriptor vd = *b;
+            EXPECT_TRUE(vd == this->_vdB);}
+        ++b; ++b;
+        if (b != e) {
+            typename TestFixture::vertex_descriptor vd = *b;
+            EXPECT_TRUE(vd == this->_vdD);}
 
+        }
 
-
-// topological_sort
-// TEST (Tests,test_topological_sort_1) {
-//         std::ostringstream out;
-//         topological_sort(this->_g, std::ostream_iterator<vertex_descriptor>(out, " "));
-//         EXPECT_TRUE(out.str() == "2 0 1 ");}

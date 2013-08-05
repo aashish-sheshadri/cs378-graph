@@ -258,9 +258,9 @@ class Graph {
  template <typename G, typename RI>
  bool dfs_recursive(const G& g, typename G::vertex_descriptor currVert, RI it, bool has_cycle = false){
     it[currVert] = 1;
-    auto itPair = adjacent_vertices(g, currVert);
-    typename G::adjacency_iterator begin = itPair.first();
-    typename G::adjacency_iterator end = itPair.second();
+    auto itPair = adjacent_vertices(currVert, g);
+    typename G::adjacency_iterator begin = itPair.first;
+    typename G::adjacency_iterator end = itPair.second;
     while(begin != end){
         
         if(it[*begin] == 1)
@@ -285,15 +285,17 @@ class Graph {
  */
 template <typename G>
 bool has_cycle (const G& g) {
-    auto edgeItPair = g.edges(g);
-    typename G::edge_iterator edgesBegin = edgeItPair.first();
-    typename G::edge_iterator edgesEnd = edgeItPair.second();
-    int verts[const_cast<size_t>(g.num_vertices())] = {0};
+    auto edgeItPair = edges(g);
+    typename G::edge_iterator edgesBegin = edgeItPair.first;
+    typename G::edge_iterator edgesEnd = edgeItPair.second;
+    int numVerts = num_vertices(g);
+    std::vector<int> verts(numVerts,0);
+    // int verts[static_cast<const typename G::vertices_size_type>(num_vertices(g))] = {0};
     do {
-        typename G::vertex_descriptor beginVert = *(edgesBegin).source();
+        typename G::vertex_descriptor beginVert = source(*(edgesBegin),g);
         if(dfs_recursive(g,beginVert,verts))
             return true;
-        ++edgesBegin;} while(edgesBegin != edgesEnd && (std::accumulate(verts,verts+g.num_vertices(),0,std::plus<int>()) != 2*g.num_vertices())); 
+        ++edgesBegin;} while(edgesBegin != edgesEnd && (std::accumulate(verts.begin(),verts.end(),0,std::plus<int>()) != 2*numVerts)); 
     return false;}
 
 // ----------------
