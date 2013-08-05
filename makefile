@@ -24,8 +24,8 @@ Graph.log:
 Graph.zip:                 Graph.h Graph.log TestGraph.c++ TestGraph.out
 	zip -r Graph.zip html/ Graph.h Graph.log TestGraph.c++ TestGraph.out
 
-TestGraph: Graph.h TestGraph.c++
-	g++ -pedantic -std=c++0x -Wall TestGraph.c++ -o TestGraph -lcppunit -ldl
+TestGraph : Graph.h TestGraph.c++
+	g++ -pedantic -std=c++0x -Wall TestGraph.c++ -o TestGraph -lgtest -lpthread -lgtest_main
 
 TestGraph.out: TestGraph
 	valgrind TestGraph > TestGraph.out

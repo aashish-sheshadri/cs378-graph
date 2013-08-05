@@ -17,6 +17,9 @@
 #include <vector>  // vector
 #include <list>
 #include <deque>
+#include <functional>
+#include <numeric>
+#include "PFD.h"
 
 // -----
 // Graph
@@ -243,6 +246,34 @@ class Graph {
         // Graph& operator = (const Graph&);
     };
 
+
+// ----------------
+// dfs_recursive
+// ----------------
+
+/** 
+ * three color dfs
+ * 
+ */
+ template <typename G, typename RI>
+ bool dfs_recursive(const G& g, typename G::vertex_descriptor currVert, RI it, bool has_cycle = false){
+    it[currVert] = 1;
+    auto itPair = adjacent_vertices(g, currVert);
+    typename G::adjacency_iterator begin = itPair.first();
+    typename G::adjacency_iterator end = itPair.second();
+    while(begin != end){
+        
+        if(it[*begin] == 1)
+            has_cycle = true;
+
+        if(it[*begin] == 0){
+            has_cycle = has_cycle || dfs_recursive(g,*begin,it);}
+            ++begin;}
+    
+    it[currVert] = 2;
+    
+    return has_cycle;}
+
 // ---------
 // has_cycle
 // ---------
@@ -254,7 +285,16 @@ class Graph {
  */
 template <typename G>
 bool has_cycle (const G& g) {
-    return true;}
+    auto edgeItPair = g.edges(g);
+    typename G::edge_iterator edgesBegin = edgeItPair.first();
+    typename G::edge_iterator edgesEnd = edgeItPair.second();
+    int verts[const_cast<size_t>(g.num_vertices())] = {0};
+    do {
+        typename G::vertex_descriptor beginVert = *(edgesBegin).source();
+        if(dfs_recursive(g,beginVert,verts))
+            return true;
+        ++edgesBegin;} while(edgesBegin != edgesEnd && (std::accumulate(verts,verts+g.num_vertices(),0,std::plus<int>()) != 2*g.num_vertices())); 
+    return false;}
 
 // ----------------
 // topological_sort
@@ -268,11 +308,36 @@ bool has_cycle (const G& g) {
  */
 template <typename G, typename OI>
 void topological_sort (const G& g, OI x) {
-    *x = 2;
-    ++x;
-    *x = 0;
-    ++x;
-    *x = 1;
+    if(has_cycle(g))
+        throw boost::not_a_dag("");
+    auto vertsItPair = vertices(g);
+    typename G::vert_iterator vertBegin = vertsItPair.first();
+    typename G::vert_iterator vertEnd = vertsItPair.second();
+    std::stringstream in;
+    typename G::edges_size_type numRules = 0;
+    typename G::vertices_size_type numVerts = num_vertices(g);
+    while(vertBegin!=vertEnd){
+        auto itPair = adjacent_vertices(g, *vertBegin);
+        typename G::adjacency_iterator begin = itPair.first();
+        typename G::adjacency_iterator end = itPair.second();
+        typename G::vertices_size_type numAdj = std::distance(begin,end);
+        if(numAdj){
+            ++numRules;
+            in<<*vertBegin<<" "<<numAdj;
+            while(begin!=end){
+                in<<" "<<*begin;
+                ++begin;}
+            in<<std::endl;}
+        ++vertBegin;}
+    
+    std::vector<node> graph = PFD_read(numVerts, numRules, in);
+    std::vector<int> result = PFD_eval(graph);
+    std::copy(result.begin(),result.end(),x);
+    // *x = 2;
+    // ++x;
+    // *x = 0;
+    // ++x;
+    // *x = 1;
     }
 
 #endif // Graph_h
