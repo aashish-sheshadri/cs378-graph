@@ -309,13 +309,13 @@ bool has_cycle (const G& g) {
 template <typename G, typename OI>
 void topological_sort (const G& g, OI x) {
     if(has_cycle(g))
-        throw not_a_dag;
+        throw boost::not_a_dag("");
     auto vertsItPair = vertices(g);
     typename G::vert_iterator vertBegin = vertsItPair.first();
     typename G::vert_iterator vertEnd = vertsItPair.second();
     std::stringstream in;
-    G::edges_size_type numRules = 0;
-    G::vertices_size_type numVerts = g.num_vertices();
+    typename G::edges_size_type numRules = 0;
+    typename G::vertices_size_type numVerts = num_vertices(g);
     while(vertBegin!=vertEnd){
         auto itPair = adjacent_vertices(g, *vertBegin);
         typename G::adjacency_iterator begin = itPair.first();
