@@ -25,6 +25,7 @@
 #include <sstream>   // ostringstream
 #include <stdexcept> // invalid_argument
 #include <string>    // ==
+#include <iostream>  // cout, endl
 
 #include "gtest/gtest.h"                        // Google Test framework
 
@@ -118,14 +119,24 @@ TYPED_TEST_CASE(Tests, Containers);
 
 // add_edge
 TYPED_TEST (Tests, add_edge_1) {
-    std::pair<typename TestFixture::edge_descriptor, bool> p = add_edge(this->_vdA, this->_vdB, this->_g);
-    EXPECT_TRUE(p.first  == this->_edAB);
-    EXPECT_TRUE(p.second == false);}
+        std::pair<typename TestFixture::edge_descriptor, bool> p = add_edge(this->_vdA, this->_vdB, this->_g);
+        EXPECT_TRUE(p.first  == this->_edAB);
+        EXPECT_TRUE(p.second == false);}
+
+TYPED_TEST (Tests, add_edge_2) {
+        std::pair<typename TestFixture::edge_descriptor, bool> p = add_edge(this->_vdC, this->_vdD, this->_g);
+        EXPECT_TRUE(p.first  == this->_edCD);
+        EXPECT_TRUE(p.second == false);}
+
+TYPED_TEST (Tests, add_edge_3) {
+        std::pair<typename TestFixture::edge_descriptor, bool> p = add_edge(this->_vdA, this->_vdD, this->_g);
+        // EXPECT_TRUE(p.first  == this->edAD);
+        EXPECT_TRUE(p.second == true);}
 
 
 
 // adjacent_vertices
- TYPED_TEST (Tests, adjacent_vertices_1) {
+TYPED_TEST (Tests, adjacent_vertices_1) {
         std::pair<typename TestFixture::adjacency_iterator, typename TestFixture::adjacency_iterator> p = adjacent_vertices(this->_vdA, this->_g);
         typename TestFixture::adjacency_iterator b = p.first;
         typename TestFixture::adjacency_iterator e = p.second;
@@ -136,7 +147,38 @@ TYPED_TEST (Tests, add_edge_1) {
         ++b;
         if (b != e) {
             typename TestFixture::vertex_descriptor vd = *b;
-            EXPECT_TRUE(vd == this->_vdC);}}
+            EXPECT_TRUE(vd == this->_vdC);}
+        ++b;
+        if (b != e) {
+            typename TestFixture::vertex_descriptor vd = *b;
+            EXPECT_TRUE(vd == this->_vdE);}
+        }
+
+TYPED_TEST (Tests, adjacent_vertices_2) {
+        std::pair<typename TestFixture::adjacency_iterator, typename TestFixture::adjacency_iterator> p = adjacent_vertices(this->_vdB, this->_g);
+        typename TestFixture::adjacency_iterator b = p.first;
+        typename TestFixture::adjacency_iterator e = p.second;
+        EXPECT_TRUE(b != e);
+        if (b != e) {
+            typename TestFixture::vertex_descriptor vd = *b;
+            EXPECT_TRUE(vd == this->_vdD);}
+        ++b;
+        if (b != e) {
+            typename TestFixture::vertex_descriptor vd = *b;
+            EXPECT_TRUE(vd == this->_vdE);}}
+
+TYPED_TEST (Tests, adjacent_vertices_3) {
+        std::pair<typename TestFixture::adjacency_iterator, typename TestFixture::adjacency_iterator> p = adjacent_vertices(this->_vdD, this->_g);
+        typename TestFixture::adjacency_iterator b = p.first;
+        typename TestFixture::adjacency_iterator e = p.second;
+        EXPECT_TRUE(b != e);
+        if (b != e) {
+            typename TestFixture::vertex_descriptor vd = *b;
+            EXPECT_TRUE(vd == this->_vdE);}
+        ++b;
+        if (b != e) {
+            typename TestFixture::vertex_descriptor vd = *b;
+            EXPECT_TRUE(vd == this->_vdF);}}
 
 
 
@@ -145,6 +187,16 @@ TYPED_TEST (Tests, test_edge_1) {
         std::pair<typename TestFixture::edge_descriptor, bool> p = edge(this->_vdA, this->_vdB, this->_g);
         EXPECT_TRUE(p.first  == this->_edAB);
         EXPECT_TRUE(p.second == true);}
+
+TYPED_TEST (Tests, test_edge_2) {
+        std::pair<typename TestFixture::edge_descriptor, bool> p = edge(this->_vdG, this->_vdH, this->_g);
+        EXPECT_TRUE(p.first  == this->_edGH);
+        EXPECT_TRUE(p.second == true);}
+
+TYPED_TEST (Tests, test_edge_3) {
+        std::pair<typename TestFixture::edge_descriptor, bool> p = edge(this->_vdE, this->_vdF, this->_g);
+        // EXPECT_TRUE(p.first  == this->_edAB);
+        EXPECT_TRUE(p.second == false);}
 
 
 
@@ -162,6 +214,43 @@ TYPED_TEST (Tests,test_edges_1) {
             typename TestFixture::edge_descriptor ed = *b;
             EXPECT_TRUE(ed == this->_edAC);}}
 
+TYPED_TEST (Tests,test_edges_2) {
+        std::pair<typename TestFixture::edge_iterator, typename TestFixture::edge_iterator> p = edges(this->_g);
+        typename TestFixture::edge_iterator b = p.first;
+        typename TestFixture::edge_iterator e = p.second;
+        EXPECT_TRUE(b != e);
+        if (b != e) {
+            typename TestFixture::edge_descriptor ed = *b;
+            EXPECT_TRUE(ed == this->_edAB);}
+        ++b;
+        if (b != e) {
+            typename TestFixture::edge_descriptor ed = *b;
+            EXPECT_TRUE(ed == this->_edAC);}
+        ++b;
+        if (b != e) {
+            typename TestFixture::edge_descriptor ed = *b;
+            EXPECT_TRUE(ed == this->_edAE);}
+        }
+
+TYPED_TEST (Tests,test_edges_3) {
+        std::pair<typename TestFixture::edge_iterator, typename TestFixture::edge_iterator> p = edges(this->_g);
+        typename TestFixture::edge_iterator b = p.first;
+        typename TestFixture::edge_iterator e = p.second;
+        EXPECT_TRUE(b != e);
+        ++b; ++b; ++b;
+        if (b != e) {
+            typename TestFixture::edge_descriptor ed = *b;
+            EXPECT_TRUE(ed == this->_edBD);}
+        ++b;
+        if (b != e) {
+            typename TestFixture::edge_descriptor ed = *b;
+            EXPECT_TRUE(ed == this->_edBE);}
+        ++b;
+        if (b != e) {
+            typename TestFixture::edge_descriptor ed = *b;
+            EXPECT_TRUE(ed == this->_edCD);}
+        }
+
 
 
 // num_edges
@@ -170,11 +259,36 @@ TYPED_TEST (Tests,test_num_edges_1) {
         EXPECT_TRUE(es == 11);}
 
 
+TYPED_TEST (Tests,test_num_edges_2) {
+        std::pair<typename TestFixture::edge_descriptor, bool> p = add_edge(this->_vdA, this->_vdD, this->_g);
+        typename TestFixture::edges_size_type es = num_edges(this->_g);
+        EXPECT_TRUE(es == 12);
+        }
+
+TYPED_TEST (Tests,test_num_edges_3) {
+        std::pair<typename TestFixture::edge_descriptor, bool> p = add_edge(this->_vdA, this->_vdD, this->_g);
+        std::pair<typename TestFixture::edge_descriptor, bool> q = add_edge(this->_vdA, this->_vdD, this->_g); // trying to add an existing edge
+        typename TestFixture::edges_size_type es = num_edges(this->_g);
+        EXPECT_TRUE(es == 12);
+        }
+
+
 
 // num_vertices
 TYPED_TEST (Tests,test_num_vertices_1) {
         typename TestFixture::vertices_size_type vs = num_vertices(this->_g);
         EXPECT_TRUE(vs == 8);}
+
+TYPED_TEST (Tests,test_num_vertices_2) {
+        typename TestFixture::vertex_descriptor vd = add_vertex(this->_g);
+        typename TestFixture::vertices_size_type vs = num_vertices(this->_g);
+        EXPECT_TRUE(vs == 9);}
+
+TYPED_TEST (Tests,test_num_vertices_3) {
+        typename TestFixture::vertex_descriptor vd1 = add_vertex(this->_g);
+        typename TestFixture::vertex_descriptor vd2 = add_vertex(this->_g);
+        typename TestFixture::vertices_size_type vs = num_vertices(this->_g);
+        EXPECT_TRUE(vs == 10);}
 
 
 
@@ -221,7 +335,7 @@ TYPED_TEST (Tests,test_vertices_1) {
 
 
 
-// // topological_sort
+// topological_sort
 // TEST (Tests,test_topological_sort_1) {
 //         std::ostringstream out;
 //         topological_sort(this->_g, std::ostream_iterator<vertex_descriptor>(out, " "));
