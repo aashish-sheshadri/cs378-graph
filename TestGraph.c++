@@ -225,6 +225,12 @@ TEST_F (CycleTests,test_topological_sort_2) {
             EXPECT_TRUE(true);
         }}
 
+TEST_F (CycleTests,test_topological_sort_3) {
+        CrossEdge();
+        std::ostringstream out;
+        topological_sort(_g, std::ostream_iterator<vertex_descriptor>(out, " "));
+        EXPECT_TRUE(out.str() == "8 2 6 5 1 4 3 7 ");}
+
 using namespace boost;
 typedef testing::Types< adjacency_list<setS, vecS, directedS>, Graph > Containers;
 
