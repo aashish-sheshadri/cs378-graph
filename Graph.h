@@ -59,7 +59,7 @@ class Graph {
             std::pair<adjacency_iterator,bool> ae = g._g[u].insert(v);
             if(ae.second == true) 
                 g._ec.push_back(ed);
-            // assert(valid());
+            assert(g._g.size() == g._vc.size());
             return std::make_pair(ed, ae.second);}
 
         // ----------
@@ -75,7 +75,7 @@ class Graph {
             vertex_descriptor v = g._g.size();
             g._vc.push_back(v);
             g._g.push_back(std::set<vertex_descriptor>());
-            // assert(valid());
+            assert(g._g.size() == g._vc.size());
             return v;}
 
         // -----------------
@@ -91,6 +91,7 @@ class Graph {
 
             adjacency_iterator b = g._g[v].begin();
             adjacency_iterator e = g._g[v].end();
+            assert(g._g.size() == g._vc.size());
             return std::make_pair(b, e);}
 
         // ----
@@ -104,9 +105,7 @@ class Graph {
         friend std::pair<edge_descriptor, bool> edge (vertex_descriptor u, vertex_descriptor v, const Graph& g) {
             // <your code> DONE
             edge_descriptor ed = std::make_pair(u, v);
-            // bool            b;
-
-            // find(g._ec.begin(), g._ec.end(), v) != g._ec.end();
+            assert(g._g.size() == g._vc.size());
             return std::make_pair(ed, find(g._ec.begin(), g._ec.end(), ed) != g._ec.end());}
 
         // -----
@@ -121,6 +120,7 @@ class Graph {
             // <your code> DONE
             edge_iterator b = g._ec.begin();
             edge_iterator e = g._ec.end();
+            assert(g._g.size() == g._vc.size());
             return std::make_pair(b, e);}
 
         // ---------
@@ -134,6 +134,7 @@ class Graph {
         friend edges_size_type num_edges (const Graph& g) {
             // <your code> DONE
             // edges_size_type s;
+            assert(g._g.size() == g._vc.size());
             return g._ec.size();}
 
         // ------------
@@ -147,6 +148,7 @@ class Graph {
         friend vertices_size_type num_vertices (const Graph& g) {
             // <your code> DONE
             // vertices_size_type s;
+            assert(g._g.size() == g._vc.size());
             return g._vc.size();}
 
         // ------
@@ -160,6 +162,7 @@ class Graph {
         friend vertex_descriptor source (edge_descriptor ed, const Graph& g) {
             // <your code> DONE
             // vertex_descriptor v;
+            assert(g._g.size() == g._vc.size());
             return ed.first;}
 
         // ------
@@ -173,6 +176,7 @@ class Graph {
         friend vertex_descriptor target (edge_descriptor ed, const Graph& g) {
             // <your code> DONE
             // vertex_descriptor v;
+            assert(g._g.size() == g._vc.size());
             return ed.second;}
 
         // ------
@@ -186,6 +190,7 @@ class Graph {
         friend vertex_descriptor vertex (vertices_size_type s, const Graph& g) {
             // <your code> DONE
             // vertex_descriptor vd;
+            assert(g._g.size() == g._vc.size());
             return g._vc[s];}
 
         // --------
@@ -200,6 +205,7 @@ class Graph {
             // <your code> DONE
             vertex_iterator b = g._vc.begin();
             vertex_iterator e = g._vc.end();
+            assert(g._g.size() == g._vc.size());
             return std::make_pair(b, e);}
 
     private:
@@ -220,8 +226,7 @@ class Graph {
          */
         bool valid () const {
             // <your code>
-
-            return _g.size() == _vc.size();}
+            return (_g.size() == _vc.size());}
 
     public:
         // ------------

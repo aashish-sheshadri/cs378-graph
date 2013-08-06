@@ -1,0 +1,163 @@
+commit e9df21825064b5165f014648a4076249da94446a
+Author: Christopher Coney <cjc3259@cs.utexas.edu>
+Date:   Mon Aug 5 19:30:07 2013 -0500
+
+    remove binary file
+
+commit d8a2227b8f1d6acbddc8d5764d1724c48909dba6
+Author: Christopher Coney <cjc3259@cs.utexas.edu>
+Date:   Mon Aug 5 19:28:26 2013 -0500
+
+    add final topological order test.  All test cases completed
+
+commit 8d7efc56d1e17780a74238b72cc58c7665012b25
+Author: Christopher Coney <cjc3259@cs.utexas.edu>
+Date:   Mon Aug 5 15:51:45 2013 -0500
+
+    added more tests
+
+commit f05aad9b8052c74cf5645c51cd3615b733846f7d
+Author: Christopher Coney <cjc3259@cs.utexas.edu>
+Date:   Mon Aug 5 15:15:03 2013 -0500
+
+    added more tests
+
+commit 9baff1cccee8a41f160a9fa78d3b45b6eb42bd95
+Merge: 7b7e375 b0bd2a1
+Author: Christopher Coney <cjc3259@cs.utexas.edu>
+Date:   Mon Aug 5 14:21:08 2013 -0500
+
+    added tests
+
+commit 7b7e3755a2b9cedc07a607591be60582019938c3
+Author: Christopher Coney <cjc3259@cs.utexas.edu>
+Date:   Mon Aug 5 14:19:56 2013 -0500
+
+    added tests
+
+commit b0bd2a161b28f78860a2dea78ceaa5430fe64daf
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Mon Aug 5 01:53:05 2013 -0500
+
+    added topological sort and has_cycle untested
+
+commit 1ed74e3df4fda995a2b51777f94ea2b7a5de0813
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Mon Aug 5 01:47:58 2013 -0500
+
+    adding PFD project implementation and topological sort
+
+commit 02c031c7c2e507b17804e311fa8180b39072163d
+Merge: 5cbcf88 9d119e0
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Sun Aug 4 18:13:55 2013 -0500
+
+    Merge branch 'master' of github.com:aashish-sheshadri/cs378-graph
+
+commit 5cbcf88d83a564c970a13f398c543dcbe97687bf
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Sun Aug 4 18:13:41 2013 -0500
+
+    added has_cycle -- need to test
+
+commit 9d119e0a9c301d16968c742ddc000128af730f01
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Sun Aug 4 18:00:11 2013 -0500
+
+    added has_cycle -- need to test
+
+commit c091723860f59830b0302b085314f79125fd7f70
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Sun Aug 4 17:58:07 2013 -0500
+
+    implementig has_cycle
+
+commit 95d1c03ba4130f2ca0c15950139003d6b395674b
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Sun Aug 4 16:41:01 2013 -0500
+
+    implementig has_cycle
+
+commit 74a49e2b94c2f46a7d4e12237d0a23976d521f09
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Sun Aug 4 16:38:42 2013 -0500
+
+    implementig has_cycle
+
+commit a3f6129fe1033640f52d78893530cf4d57aa01dd
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Sun Aug 4 15:55:40 2013 -0500
+
+    implementig has_cycle
+
+commit 60f06409d41b2ac483469d5d59f0910a5109779c
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Sun Aug 4 15:49:52 2013 -0500
+
+    implementig has_cycle
+
+commit e06c2aa53244d6cf7120ab6b11a49d77beea55cf
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Sun Aug 4 15:48:29 2013 -0500
+
+    implementig has_cycle
+
+commit ff78288c8cb10d7c5d5857dfb778c85c827dbbec
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Sun Aug 4 15:46:01 2013 -0500
+
+    implementig has_cycle
+
+commit 44c7650296a131e64967b075db8dfb40d69522c6
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Sun Aug 4 15:44:37 2013 -0500
+
+    implementing has_cycle
+
+commit 38afd5846444d2762d4720edb0df7a285fddfc23
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Thu Aug 1 16:40:45 2013 -0500
+
+    working graph
+
+commit bdcd6150a19be18a4f433c7c8c241cb3ec4412b0
+Author: Christopher Coney <cjc3259@cs.utexas.edu>
+Date:   Thu Aug 1 16:30:11 2013 -0500
+
+    commented out a couple of assert(valid())
+
+commit ccb19c5bd5f2d09c06dc616e354072e05de8297a
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Thu Aug 1 13:41:59 2013 -0500
+
+    adding makefile
+
+commit c42eab9ed5476388029fb9830ca14c9324928ea4
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Thu Aug 1 13:38:56 2013 -0500
+
+    makefile
+
+commit e6311a05975b37f45b9ed0178019bd10fc97b43c
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Thu Aug 1 13:19:39 2013 -0500
+
+    deleted binary
+
+commit e2dc3a9962650941805ca1c600a1e2e29ee3c9c0
+Author: Christopher Coney <cjc3259@cs.utexas.edu>
+Date:   Wed Jul 31 12:16:02 2013 -0500
+
+    added comments and made a slight change to TestGraph to compile
+
+commit b2e43f339b3709cc4c0d3dc13c96e3bbbe675ac7
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Tue Jul 30 23:05:22 2013 -0500
+
+    adding working framework
+
+commit f7c28acd8f917fc048c99651c21ba3ba29529e50
+Author: aashish-sheshadri <aashish.sheshadri@gmail.com>
+Date:   Tue Jul 30 21:00:58 2013 -0700
+
+    Initial commit
