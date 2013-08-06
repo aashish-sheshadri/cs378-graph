@@ -261,7 +261,7 @@ class Graph {
  * 
  */
  template <typename G, typename RI>
- bool dfs_recursive(const G& g, typename G::vertex_descriptor currVert, RI it, bool has_cycle = false){
+ bool dfs_recursive(const G& g, typename G::vertex_descriptor currVert, RI it, std::deque<typename G::vertex_descriptor>& topSort, bool has_cycle = false){
     it[currVert] = 1;
     auto itPair = adjacent_vertices(currVert, g);
     typename G::adjacency_iterator begin = itPair.first;
@@ -272,11 +272,14 @@ class Graph {
             has_cycle = true;
 
         if(it[*begin] == 0){
-            has_cycle = has_cycle || dfs_recursive(g,*begin,it);}
+            has_cycle = has_cycle || dfs_recursive(g,*begin,it, topSort);}
             ++begin;}
     
     it[currVert] = 2;
-    
+    if(has_cycle){
+        topSort.clear();
+    } else {
+        topSort.push_front(currVert);}
     return has_cycle;}
 
 // ---------
@@ -295,12 +298,18 @@ bool has_cycle (const G& g) {
     typename G::edge_iterator edgesEnd = edgeItPair.second;
     int numVerts = num_vertices(g);
     std::vector<int> verts(numVerts,0);
+    std::deque<typename G::vertex_descriptor> topSort;
     // int verts[static_cast<const typename G::vertices_size_type>(num_vertices(g))] = {0};
     do {
         typename G::vertex_descriptor beginVert = source(*(edgesBegin),g);
-        if(dfs_recursive(g,beginVert,verts))
+        if(dfs_recursive(g,beginVert,verts, topSort))
             return true;
         ++edgesBegin;} while(edgesBegin != edgesEnd && (std::accumulate(verts.begin(),verts.end(),0,std::plus<int>()) != 2*numVerts)); 
+    std::cout<<std::endl;
+    std::deque<typename G::vertex_descriptor>::iterator it = topSort.begin();
+    while(it!=topSort.end()){
+        std::cout<<*it<<" ";}
+    std::cout<<std::endl;
     return false;}
 
 // ----------------
