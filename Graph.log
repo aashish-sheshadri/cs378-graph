@@ -1,3 +1,27 @@
+commit aef5a2369c610e21537cdc99b5893dfa6f07cce4
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Wed Aug 7 13:23:07 2013 -0500
+
+    removed PFD dependency and added documentation
+
+commit 60b99b66a02dcf3bc72a3f5b88725e3167f6971b
+Author: Aashish Sheshadri <aashish.sheshadri@gmail.com>
+Date:   Mon Aug 5 21:05:55 2013 -0500
+
+    trying top sort from dfs
+
+commit af4b022d3f14445fff73b430f7bffd2eaf1957bb
+Author: Christopher Coney <cjc3259@cs.utexas.edu>
+Date:   Mon Aug 5 19:45:11 2013 -0500
+
+    removing binary again
+
+commit af16a51ced73cc0a548f00af5835689a035e483b
+Author: Christopher Coney <cjc3259@cs.utexas.edu>
+Date:   Mon Aug 5 19:43:57 2013 -0500
+
+    include html/ and Graph.log
+
 commit e9df21825064b5165f014648a4076249da94446a
 Author: Christopher Coney <cjc3259@cs.utexas.edu>
 Date:   Mon Aug 5 19:30:07 2013 -0500
