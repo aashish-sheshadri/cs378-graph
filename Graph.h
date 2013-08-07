@@ -19,7 +19,6 @@
 #include <deque>
 #include <functional>
 #include <numeric>
-#include "PFD.h"
 
 // -----
 // Graph
@@ -47,8 +46,11 @@ class Graph {
         // --------
 
         /**
-         * <your documentation> DONE
-         add edge (u, v) to graph g
+         * add edge (u, v) to graph g
+         * @param u is a vertex_descriptor by value
+         * @param v is a vertex descriptor by value
+         * @param g is a Graph taken by reference
+         * @return a Pair of edge_descriptor and bool indicating sucess of edge creation
          */
         friend std::pair<edge_descriptor, bool> add_edge (vertex_descriptor u, vertex_descriptor v, Graph& g) {
             // <your code> DONE
@@ -67,8 +69,9 @@ class Graph {
         // ----------
 
         /**
-         * <your documentation> DONE
-         add a vertex v to graph g 
+         * add a vertex v to graph g 
+         * @param g is a Graph taken by reference
+         * @return vertex_descriptor for newly added vertex
          */
         friend vertex_descriptor add_vertex (Graph& g) {
             // <your code> DONE 
@@ -83,8 +86,10 @@ class Graph {
         // -----------------
 
         /**
-         * <your documentation> DONE
-         returns first and last+1 iterators for vertices adjacent to vertex v in graph g
+         * returns begin and end iterators over adjacent vertices of input vertex
+         * @param v is a vertex descriptor by value
+         * @param g is a Graph taken by reference
+         * @return Pair of begin and end iterators over adjacent vertices
          */
         friend std::pair<adjacency_iterator, adjacency_iterator> adjacent_vertices (vertex_descriptor v, const Graph& g) {
             // <your code> DONE
@@ -99,8 +104,11 @@ class Graph {
         // ----
 
         /**
-         * <your documentation> DONE
-         returns the edge_descriptor for the given vertices u & v in graph g and if the edge exists
+         * Finds edge_descriptor for the input vertices graph
+         * @param u is a vertex_descriptor by value
+         * @param v is a vertex_descriptor by value
+         * @param g is a Graph taken by reference
+         * @return Pair of edge_descriptor and bool for the input vertices, false is edge not present
          */
         friend std::pair<edge_descriptor, bool> edge (vertex_descriptor u, vertex_descriptor v, const Graph& g) {
             // <your code> DONE
@@ -113,8 +121,9 @@ class Graph {
         // -----
 
         /**
-         * <your documentation> DONE
-         returns first and last+1 iterators to edges in graph g
+         * begin and end iterators to edges in graph
+         * @param g is Graph by reference
+         * @return a pair of begin and end iterators over edges in graph
          */
         friend std::pair<edge_iterator, edge_iterator> edges (const Graph& g) {
             // <your code> DONE
@@ -128,8 +137,9 @@ class Graph {
         // ---------
 
         /**
-         * <your documentation> DONE
-         returns the number of edges in graph g
+         * Number of edges in graph g
+         * @param g is a Graph by reference
+         * @return number of edges in graph
          */
         friend edges_size_type num_edges (const Graph& g) {
             // <your code> DONE
@@ -142,8 +152,9 @@ class Graph {
         // ------------
 
         /**
-         * <your documentation> DONE
-         returns the number of vertices in graph g
+         * Number of vertices in graph g
+         * @param g is a Graph by reference
+         * @return number of vertices in graph
          */
         friend vertices_size_type num_vertices (const Graph& g) {
             // <your code> DONE
@@ -156,8 +167,10 @@ class Graph {
         // ------
 
         /**
-         * <your documentation> DONE
-         returns the source vertex of edge ed
+         * Source vertex of edge
+         * @param ed is a edge_descriptor by value
+         * @param g is a Graph by reference
+         * return source vertex of edge
          */
         friend vertex_descriptor source (edge_descriptor ed, const Graph& g) {
             // <your code> DONE
@@ -170,8 +183,10 @@ class Graph {
         // ------
 
         /**
-         * <your documentation> DONE
-         returns the target vertex of edge ed
+         * Target vertex of edge
+         * @param ed is a edge_descriptor by value
+         * @param g is a Graph by reference
+         * return target vertex of edge
          */
         friend vertex_descriptor target (edge_descriptor ed, const Graph& g) {
             // <your code> DONE
@@ -184,8 +199,10 @@ class Graph {
         // ------
 
         /**
-         * <your documentation> DONE
-         returns the vertex_descriptor corresponding to s in graph g
+         * vertex_descriptor to corresponding vertex in graph
+         * @param s is vertices_size_type taken by value
+         * @param g is a Graph taken by refrence
+         * @return vextex_descriptor for vertex
          */
         friend vertex_descriptor vertex (vertices_size_type s, const Graph& g) {
             // <your code> DONE
@@ -198,8 +215,9 @@ class Graph {
         // --------
 
         /**
-         * <your documentation> DONE
-         return first and last+1 iterators for vertices in graph g
+         * begin and end iterators over vertices in graph
+         * @param g is Graph by reference
+         * @return pair of iterators over vertices in graph
          */
         friend std::pair<vertex_iterator, vertex_iterator> vertices (const Graph& g) {
             // <your code> DONE
@@ -234,7 +252,10 @@ class Graph {
         // ------------
 
         /**
-         * <your documentation>
+         * Constructor
+         * g is a vector of sets of type vertex_descriptor by value (defaulted)
+         * vc is a vector of vertex_descriptor by value (defaulted)
+         * ec is a vector of edge_descriptor by value (defaulted)
          */
         Graph (std::vector<std::set<vertex_descriptor> > g = std::vector<std::set<vertex_descriptor> >(), std::vector<vertex_descriptor> vc = std::vector<vertex_descriptor>(), std::vector<edge_descriptor> ec = std::vector<edge_descriptor> ()) :
                 _g(g),
@@ -258,11 +279,20 @@ class Graph {
 
 /** 
  * three color dfs
- * 
+ * @param g is Graph by reference
+ * @param currVert is a vertex_descriptor by value
+ * @param it is a Random Access iterator
+ * @param topSort is a deque by reference
+ * @param has_cycle is a bool by value
+ * @return bool indicating presence of a back edge
  */
  template <typename G, typename RI>
  bool dfs_recursive(const G& g, typename G::vertex_descriptor currVert, RI it, std::deque<typename G::vertex_descriptor>& topSort, bool has_cycle = false){
-    it[currVert] = 1;
+    if(it[currVert] == 0)
+        it[currVert] = 1;
+    else
+        return has_cycle;
+    
     auto itPair = adjacent_vertices(currVert, g);
     typename G::adjacency_iterator begin = itPair.first;
     typename G::adjacency_iterator end = itPair.second;
@@ -273,13 +303,15 @@ class Graph {
 
         if(it[*begin] == 0){
             has_cycle = has_cycle || dfs_recursive(g,*begin,it, topSort);}
-            ++begin;}
+        ++begin;}
     
-    it[currVert] = 2;
+    
     if(has_cycle){
         topSort.clear();
     } else {
-        topSort.push_front(currVert);}
+        if(it[currVert]!=2)
+            topSort.push_front(currVert);}
+    it[currVert] = 2;
     return has_cycle;}
 
 // ---------
@@ -287,9 +319,9 @@ class Graph {
 // ---------
 
 /**
- * depth-first traversal
- * three colors
- * <your documentation>
+ * Detects cycle in graph
+ * @param g is a Graph by reference
+ * @return bool indicating presence of cycle in the graph
  */
 template <typename G>
 bool has_cycle (const G& g) {
@@ -297,19 +329,14 @@ bool has_cycle (const G& g) {
     typename G::edge_iterator edgesBegin = edgeItPair.first;
     typename G::edge_iterator edgesEnd = edgeItPair.second;
     int numVerts = num_vertices(g);
+    assert(numVerts!=0);
     std::vector<int> verts(numVerts,0);
     std::deque<typename G::vertex_descriptor> topSort;
-    // int verts[static_cast<const typename G::vertices_size_type>(num_vertices(g))] = {0};
-    do {
+    do {  
         typename G::vertex_descriptor beginVert = source(*(edgesBegin),g);
-        if(dfs_recursive(g,beginVert,verts, topSort))
+        if(dfs_recursive(g,beginVert,verts.begin(), topSort))
             return true;
         ++edgesBegin;} while(edgesBegin != edgesEnd && (std::accumulate(verts.begin(),verts.end(),0,std::plus<int>()) != 2*numVerts)); 
-    std::cout<<std::endl;
-    std::deque<typename G::vertex_descriptor>::iterator it = topSort.begin();
-    while(it!=topSort.end()){
-        std::cout<<*it<<" ";}
-    std::cout<<std::endl;
     return false;}
 
 // ----------------
@@ -317,43 +344,25 @@ bool has_cycle (const G& g) {
 // ----------------
 
 /**
- * depth-first traversal
- * two colors
- * <your documentation>
+ * Performs a topological sort
+ * @param g is Graph by reference
+ * @param x is an output iterator  
  * @throws Boost's not_a_dag exception if has_cycle()
  */
 template <typename G, typename OI>
 void topological_sort (const G& g, OI x) {
-    if(has_cycle(g))
-        throw boost::not_a_dag();
-    auto vertsItPair = vertices(g);
-    typename G::vertex_iterator vertBegin = vertsItPair.first;
-    typename G::vertex_iterator vertEnd = vertsItPair.second;
-    std::stringstream in;
-    typename G::edges_size_type numRules = 0;
-    typename G::vertices_size_type numVerts = num_vertices(g);
-    while(vertBegin!=vertEnd){
-        auto itPair = adjacent_vertices(*vertBegin,g);
-        typename G::adjacency_iterator begin = itPair.first;
-        typename G::adjacency_iterator end = itPair.second;
-        typename G::vertices_size_type numAdj = std::distance(begin,end);
-        if(numAdj){
-            ++numRules;
-            in<<*vertBegin + 1<<" "<<numAdj;
-            while(begin!=end){
-                in<<" "<<*begin + 1;
-                ++begin;}
-            in<<std::endl;}
-        ++vertBegin;}
-    
-    std::vector<node> graph = PFD_read(numVerts, numRules, in);
-    std::vector<int> result = PFD_eval(graph);
-    std::copy(result.rbegin(),result.rend(),x);
-    // *x = 2;
-    // ++x;
-    // *x = 0;
-    // ++x;
-    // *x = 1;
-    }
+    auto edgeItPair = edges(g);
+    typename G::edge_iterator edgesBegin = edgeItPair.first;
+    typename G::edge_iterator edgesEnd = edgeItPair.second;
+    int numVerts = num_vertices(g);
+    assert(numVerts!=0);
+    std::vector<int> verts(numVerts,0);
+    std::deque<typename G::vertex_descriptor> topSort;
+    do {  
+        typename G::vertex_descriptor beginVert = source(*(edgesBegin),g);
+        if(dfs_recursive(g,beginVert,verts.begin(), topSort))
+            throw boost::not_a_dag();
+        ++edgesBegin;} while(edgesBegin != edgesEnd && (std::accumulate(verts.begin(),verts.end(),0,std::plus<int>()) != 2*numVerts)); 
+    std::copy(topSort.begin(),topSort.end(),x);}
 
 #endif // Graph_h

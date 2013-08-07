@@ -149,7 +149,6 @@ class CycleTests : public testing::Test {
         _vdE = add_vertex(_g);
         _vdF = add_vertex(_g);
         _vdG = add_vertex(_g);
-        _vdH = add_vertex(_g);
 
         // _edAB = add_edge(_vdA, _vdB, _g).first;
         _eA = add_edge(_vdA, _vdC, _g).first;
@@ -185,9 +184,21 @@ class CycleTests : public testing::Test {
         _eI = add_edge(_vdF, _vdG, _g).first;
         // _edGH = add_edge(_vdG, _vdH, _g).first;
     }
-};
 
-// has_cycle
+    virtual void sampleGraph(){
+        _vdA = add_vertex(_g);
+        _vdB = add_vertex(_g);
+        _vdC = add_vertex(_g);
+        _eA = add_edge(_vdA, _vdB, _g).first;
+        _eB = add_edge(_vdA, _vdC, _g).first;
+        // _eC = add_edge(_vdB, _vdE, _g).first;
+    }};
+
+TEST_F (CycleTests, test_sample_graph){
+    sampleGraph();
+    EXPECT_TRUE(!has_cycle(_g));}
+
+// // has_cycle
 TEST_F (CycleTests,test_has_cycle_1) {
         setupCyclic();
         EXPECT_TRUE(has_cycle(_g));}
@@ -208,12 +219,12 @@ TEST_F (CycleTests,test_has_cycle_4) {
 
 
 
-// topological_sort
+// // topological_sort
 TEST_F (CycleTests,test_topological_sort_1) {
         setupACyclic();
         std::ostringstream out;
         topological_sort(_g, std::ostream_iterator<vertex_descriptor>(out, " "));
-        EXPECT_TRUE(out.str() == "7 6 8 1 3 2 4 5 ");}
+        EXPECT_TRUE(out.str() == "6 5 7 0 2 1 3 4 ");}
 
 TEST_F (CycleTests,test_topological_sort_2) {
         setupCyclic();
@@ -229,7 +240,8 @@ TEST_F (CycleTests,test_topological_sort_3) {
         CrossEdge();
         std::ostringstream out;
         topological_sort(_g, std::ostream_iterator<vertex_descriptor>(out, " "));
-        EXPECT_TRUE(out.str() == "8 2 6 5 1 4 3 7 ");}
+        std::cout<<"\n"<<out.str()<<"\n";
+        EXPECT_TRUE(out.str() == "1 5 4 0 3 2 6 ");}
 
 using namespace boost;
 typedef testing::Types< adjacency_list<setS, vecS, directedS>, Graph > Containers;
